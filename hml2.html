@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Where Future Begins</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #202222;
+            color: white;
+        }
+
+        .main-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .centered-container {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px;
+        }
+
+        .chat-interface {
+            margin-left: 50px;
+            top: 20px;
+            border: 1px solid #343437;
+            flex-grow: 1;
+            height: 100%;
+            background-color: #181a1b;
+            padding-right: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 10px;
+            margin-left: -20px;
+            justify-content: center;
+        }
+
+        h1 {
+            margin-top: 70px;
+            text-align: center;
+            margin-bottom: 10px;
+            font-family: 'Avenir', sans-serif;
+            font-size: 40px;
+            font-weight: normal;
+            margin-left: 30px;
+        }
+
+        .textarea-container, .chat-log-container {
+            width: 100%;
+            max-width: 700px;
+            min-width: 500px;
+            box-sizing: border-box;
+            margin-left: 30px;
+            justify-self: center;
+        }
+
+        .textarea-container {
+            position: relative;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        textarea {
+            width: 100%;
+            height: 115px;
+            margin-bottom: 10px;
+            border: 1.5px solid #353536;
+            background-color: #202222;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            resize: none;
+            box-sizing: border-box;
+            font-family: 'Avenir', sans-serif;
+            font-size: 16px;
+            outline: none;
+            caret-color: #f16f33;
+        }
+
+        ::selection {
+            background-color: rgba(241, 111, 51, 0.839);
+            color: white;
+        }
+
+        #submitButton {
+            position: absolute;
+            bottom: 25px;
+            right: 12px;
+            background-color: #4a4a4b;
+            background-image: url('images/arrow_g.png'); /* Set the image URL */
+            background-size: 20px 20px; /* Adjust the size of the image */
+            background-repeat: no-repeat;
+            background-position: center;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s ease, background-image 0.3s ease;
+        }
+
+        #submitButton.active {
+            background-color: #f16f33;
+            background-image: url('images/arrow_w.png'); /* Set the active image URL */
+        }
+
+        #tasksButton {
+            position: absolute;
+            bottom: 22px;
+            left: 15px;
+            background-color: transparent;
+            background-image: url('images/record_g.png');
+            background-size: 20px 20px;
+            background-position: left center;
+            background-repeat: no-repeat;
+            border: none;
+            border-radius: 100px;
+            width: 110px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+            color: #939393;
+            font-family: 'Avenir', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, background-image 0.3s ease;
+            background-position: 5px center; /* Move the background image */
+        }
+
+        #tasksButton:hover {
+            background-image: url('images/record_w.png');
+            background-color: #ec5611;
+            color: white;
+        }
+
+        .tasks-text {
+            margin-left: 7px;
+        }
+
+        .chat-log-container {
+            margin-top: 20px;
+        }
+
+        #chatLog {
+            width: 100%;
+            height: 250px;
+            overflow-y: auto;
+            background-color: #202222;
+            padding-top: 5px;
+            padding-left: 20px;
+            border: 1.5px solid #343437;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-family: 'Avenir', sans-serif;
+            font-size: 16px;
+            font-weight: normal;
+        }
+
+        .sidebar {
+            width: 70px;
+            background-color: #202222;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #messageHistory {
+            list-style-type: none;
+            padding: 0;
+            width: 100%;
+        }
+
+        #messageHistory li {
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .sidebar-buttons-top {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .sidebar-button {
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s ease;
+            background-size: 70%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .sidebar-logo {
+            width: 100%;
+            max-width: 60px;
+            height: auto;
+        }
+
+        #button1 {
+            background-color: #353536;
+            background-image: url('images/plus_g.png');
+        }
+
+        .sidebar-button:not(#button1) {
+            border-radius: 5px;
+            width: 40px;
+            height: 40px;
+            background-color: transparent;
+        }
+
+        #button2 {
+            margin-top: 20px;
+            background-image: url('images/list_g.png');
+        }
+
+        #button3 {
+            background-image: url('images/globe_g.png');
+        }
+
+        #button4 {
+            background-image: url('images/gear_g.png');
+        }
+
+        #button1:hover {
+            background-image: url('images/plus_w.png');
+        }
+
+        #button2:hover {
+            background-image: url('images/list_w.png');
+        }
+
+        #button3:hover {
+            background-image: url('images/globe_w.png');
+        }
+
+        #button4:hover {
+            background-image: url('images/gear_w.png');
+        }
+
+        .sidebar-button:not(#button1):hover {
+            background-color: #ec5611;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="sidebar">
+            <div>
+                <img src="images/logo_w.png" alt="Logo" class="sidebar-logo">
+                <ul id="messageHistory"></ul>
+                <div class="sidebar-buttons-top">
+                    <button class="sidebar-button" id="button1"></button>
+                    <button class="sidebar-button" id="button2"></button>
+                    <button class="sidebar-button" id="button3"></button>
+                </div>
+            </div>
+            <button class="sidebar-button" id="button4"></button>
+        </div>
+        <div class="centered-container">
+            <div class="chat-interface">
+                <h1>Where Future Begins</h1>
+                <div class="textarea-container">
+                    <textarea id="content" placeholder="Ask anything..."></textarea>
+                    <button id="submitButton"></button>
+                    <button id="tasksButton">
+                        <span class="tasks-text">Record Task</span>
+                    </button>
+                </div>
+                <div class="chat-log-container">
+                    <div id="chatLog"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const content = document.getElementById('content');
+            const submitButton = document.getElementById('submitButton');
+            const messageHistory = document.getElementById('messageHistory');
+            const chatLog = document.getElementById('chatLog');
+            const button1 = document.getElementById('button1');
+            const button2 = document.getElementById('button2');
+            const button3 = document.getElementById('button3');
+            const button4 = document.getElementById('button4');
+
+            submitButton.addEventListener('click', handleSubmit);
+            content.addEventListener('keydown', handleKeyDown);
+            content.addEventListener('input', handleInput);
+            button1.addEventListener('click', () => handleSidebarButtonClick('Button 1 clicked'));
+            button2.addEventListener('click', () => handleSidebarButtonClick('Button 2 clicked'));
+            button3.addEventListener('click', () => handleSidebarButtonClick('Button 3 clicked'));
+            button4.addEventListener('click', () => handleSidebarButtonClick('Button 4 clicked'));
+
+            function handleSubmit() {
+                const message = content.value.trim();
+                if (message) {
+                    addMessageToChatLog(message);
+                    addMessageToHistory(message);
+                    clearInput();
+                    scrollChatToBottom();
+                    console.log(`Task Executing: ${message}`);
+                }
+            }
+
+            function handleKeyDown(event) {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault();
+                    handleSubmit();
+                }
+            }
+
+            function handleInput() {
+                if (content.value.trim()) {
+                    submitButton.classList.add('active');
+                } else {
+                    submitButton.classList.remove('active');
+                }
+            }
+
+            function addMessageToChatLog(message) {
+                const messageElement = document.createElement('p');
+                messageElement.textContent = message;
+                chatLog.appendChild(messageElement);
+            }
+
+            function addMessageToHistory(message) {
+                const li = document.createElement('li');
+                li.textContent = message;
+                messageHistory.appendChild(li);
+            }
+
+            function clearInput() {
+                content.value = '';
+                submitButton.classList.remove('active');
+            }
+
+            function scrollChatToBottom() {
+                chatLog.scrollTop = chatLog.scrollHeight;
+            }
+
+            function handleSidebarButtonClick(message) {
+                addMessageToChatLog(message);
+                addMessageToHistory(message);
+                scrollChatToBottom();
+            }
+
+            content.focus();
+        });
+    </script>
+</body>
+</html>
